@@ -7,33 +7,31 @@ namespace Gigya\Gigya_FieldMapping\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Gigya\Gigya_FieldMapping\Model\M2FieldsUpdater;
-//use \Magento\Framework\App\Filesystem\DirectoryList;
+use \Magento\Framework\App\Config\ScopeConfigInterface;
 
 class MapFieldsObserver implements ObserverInterface
 {
-    /**
-     * @var \Magento\Framework\App\Filesystem\DirectoryList
-     */
-//    protected $directory_list;
 
     /**
      * @var Gigya\Gigya_FieldMapping\Model\M2FieldsUpdater
      */
     protected $m2FieldsUpdater;
 
+
+
     /**
      * MapFieldsObserver constructor.
      */
     public function __construct(
-//        DirectoryList $directory_list
+        ScopeConfigInterface $scopeConfig
     )
     {
-//        $this->directory_list = $directory_list;
+        $this->scopeConfig = $scopeConfig;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        $config_file_path = "path/to/config";
+        $config_file_path = $this->scopeConfig->getValue("gigya_section_fieldmapping/general_fieldmapping/mapping_file_path");;
         $gigya_user = $observer->getData('gigya_user');
         $customer = $observer->getData('customer');
         $this->m2FieldsUpdater = new M2FieldsUpdater($gigya_user, $config_file_path);
