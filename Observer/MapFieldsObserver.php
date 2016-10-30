@@ -36,6 +36,5 @@ class MapFieldsObserver implements ObserverInterface
         $customer = $observer->getData('customer');
         $this->m2FieldsUpdater = new M2FieldsUpdater($gigya_user, $config_file_path);
         $test = $this->m2FieldsUpdater->test();
-        //Additional observer execution code...
     }
 }
