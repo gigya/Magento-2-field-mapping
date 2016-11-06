@@ -13,19 +13,26 @@ use Gigya\CmsStarterKit\fieldMapping;
 class M2FieldsUpdater extends fieldMapping\CmsUpdater
 {
 
-    public function test() {
-        return true;
-    }
-
     public function callCmsHook() {
         return true;
     }
 
-    public function saveCmsAccount(&$cmsAccount) {
-        return true;
+    /**
+     * @param Magento/Customer $account
+     */
+    public function setAccountValues(&$account) {
+        foreach ($this->getGigyaMapping() as $gigyaName => $confs) { // e.g: loginProvider => [$confItem]
+            /** @var Gigya\CmsStarterKit\fieldMapping\ConfItem $conf */
+            $value = parent::getValueFromGigyaAccount($gigyaName); // e.g: loginProvider = facebook
+            foreach ($confs as $conf) {
+                $mageKey = $conf->getMagentoName();
+                $value   = $this->castValue($value, $conf);
+                $account->setData($mageKey, $value);
+            }
+        }
     }
 
-    public function setAccountValues(&$account) {
+    public function saveCmsAccount(&$cmsAccount) {
         return true;
     }
 

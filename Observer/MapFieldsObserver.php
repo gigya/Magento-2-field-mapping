@@ -17,8 +17,6 @@ class MapFieldsObserver implements ObserverInterface
      */
     protected $m2FieldsUpdater;
 
-
-
     /**
      * MapFieldsObserver constructor.
      */
@@ -31,10 +29,10 @@ class MapFieldsObserver implements ObserverInterface
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        $config_file_path = $this->scopeConfig->getValue("gigya_section_fieldmapping/general_fieldmapping/mapping_file_path");;
+        $config_file_path = $this->scopeConfig->getValue("gigya_section_fieldmapping/general_fieldmapping/mapping_file_path");
         $gigya_user = $observer->getData('gigya_user');
         $customer = $observer->getData('customer');
         $this->m2FieldsUpdater = new M2FieldsUpdater($gigya_user, $config_file_path);
-        $test = $this->m2FieldsUpdater->test();
+        $this->m2FieldsUpdater->updateCmsAccount($customer);
     }
 }
