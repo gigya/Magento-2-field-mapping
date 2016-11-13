@@ -32,7 +32,8 @@ class MapFieldsObserver implements ObserverInterface
         $config_file_path = $this->scopeConfig->getValue("gigya_section_fieldmapping/general_fieldmapping/mapping_file_path");
         $customer = $observer->getData('customer');
         $gigya_user = $observer->getData('gigya_user');
+        $accountManagement = $observer->getData('accountManagement');
         $this->m2FieldsUpdater = new M2FieldsUpdater($gigya_user, $config_file_path);
-        $this->m2FieldsUpdater->updateCmsAccount($customer);
+        $this->m2FieldsUpdater->updateCmsAccount($customer, $accountManagement);
     }
 }

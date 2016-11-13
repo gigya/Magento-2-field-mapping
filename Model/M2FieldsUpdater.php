@@ -37,7 +37,8 @@ class M2FieldsUpdater extends fieldMapping\CmsUpdater
         }
     }
 
-    public function saveCmsAccount(&$cmsAccount) {
+    public function saveCmsAccount(&$cmsAccount, $cmsAccountSaver) {
+        $cmsAccountSaver->gigyaUpdateCustomer($cmsAccount);
         return true;
     }
 
