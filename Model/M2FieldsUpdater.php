@@ -29,6 +29,11 @@ class M2FieldsUpdater extends fieldMapping\CmsUpdater
         foreach ($this->getGigyaMapping() as $gigyaName => $confs) {
             /** @var Gigya\CmsStarterKit\fieldMapping\ConfItem $conf */
             $value = parent::getValueFromGigyaAccount($gigyaName); // e.g: loginProvider = facebook
+            // if no value found, log and skip field
+            if (is_null($value)) {
+                // log mapping error
+                continue;
+            }
             foreach ($confs as $conf) {
                 $mageKey = $conf->getCmsName();     // e.g: mageKey = prefix
                 $value   = $this->castValue($value, $conf);
@@ -38,8 +43,9 @@ class M2FieldsUpdater extends fieldMapping\CmsUpdater
     }
 
     public function saveCmsAccount(&$cmsAccount, $cmsAccountSaver) {
-        $cmsAccountSaver->gigyaUpdateCustomer($cmsAccount);
-        return true;
+        if ($cmsAccountSaver) {
+            $cmsAccountSaver->gigyaUpdateCustomer($cmsAccount);
+        }
     }
 
 }
