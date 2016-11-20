@@ -35,11 +35,21 @@ class MapFieldsObserver implements ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         $config_file_path = $this->scopeConfig->getValue("gigya_section_fieldmapping/general_fieldmapping/mapping_file_path");
-        $customer = $observer->getData('customer');
-        $gigya_user = $observer->getData('gigya_user');
-        $accountManagement = $observer->getData('accountManagement');
-        $this->m2FieldsUpdater = new M2FieldsUpdater($gigya_user, $config_file_path);
-        $this->m2FieldsUpdater->setGigyaLogger($this->_logger);
-        $this->m2FieldsUpdater->updateCmsAccount($customer, $accountManagement);
+        if (!is_null($config_file_path)) {
+            $customer = $observer->getData('customer');
+            $gigya_user = $observer->getData('gigya_user');
+            $accountManagement = $observer->getData('accountManagement');
+            $this->m2FieldsUpdater = new M2FieldsUpdater($gigya_user, $config_file_path);
+            $this->m2FieldsUpdater->setGigyaLogger($this->_logger);
+            $this->m2FieldsUpdater->updateCmsAccount($customer, $accountManagement);
+        } else {
+            $this->_logger->warning(
+                "mapping fields file path is not defined. Define file path at: Sotres:Config:Gigya:field mapping",
+                array(
+                    "class" => __CLASS__,
+                    "method" => __FUNCTION__
+                )
+            );
+        }
     }
 }
