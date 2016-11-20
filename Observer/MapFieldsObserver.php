@@ -8,6 +8,7 @@ namespace Gigya\Gigya_FieldMapping\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Gigya\Gigya_FieldMapping\Model\M2FieldsUpdater;
 use \Magento\Framework\App\Config\ScopeConfigInterface;
+use \Gigya\GigyaIM\Logger\Logger;
 
 class MapFieldsObserver implements ObserverInterface
 {
@@ -17,14 +18,18 @@ class MapFieldsObserver implements ObserverInterface
      */
     protected $m2FieldsUpdater;
 
+    protected $_logger;
+
     /**
      * MapFieldsObserver constructor.
      */
     public function __construct(
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        Logger $logger
     )
     {
         $this->scopeConfig = $scopeConfig;
+        $this->_logger = $logger;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
@@ -34,6 +39,7 @@ class MapFieldsObserver implements ObserverInterface
         $gigya_user = $observer->getData('gigya_user');
         $accountManagement = $observer->getData('accountManagement');
         $this->m2FieldsUpdater = new M2FieldsUpdater($gigya_user, $config_file_path);
+        $this->m2FieldsUpdater->setGigyaLogger($this->_logger);
         $this->m2FieldsUpdater->updateCmsAccount($customer, $accountManagement);
     }
 }

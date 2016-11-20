@@ -18,8 +18,20 @@ use Gigya\CmsStarterKit\fieldMapping;
 class M2FieldsUpdater extends fieldMapping\CmsUpdater
 {
 
+    public $_logger;
+
+    public function __construct(
+        \Gigya\CmsStarterKit\User\GigyaUser $gigyaAccount, $mappingFilePath)
+    {
+        parent::__construct($gigyaAccount, $mappingFilePath);
+    }
+
     public function callCmsHook() {
         return true;
+    }
+
+    public function setGigyaLogger($logger) {
+        $this->_logger = $logger;
     }
 
     /**
@@ -31,7 +43,7 @@ class M2FieldsUpdater extends fieldMapping\CmsUpdater
             $value = parent::getValueFromGigyaAccount($gigyaName); // e.g: loginProvider = facebook
             // if no value found, log and skip field
             if (is_null($value)) {
-                // log mapping error
+                $this->_logger->info( __FUNCTION__ . ": Value for {$gigyaName} not found in gigya user object. check your field mapping configuration");
                 continue;
             }
             foreach ($confs as $conf) {
