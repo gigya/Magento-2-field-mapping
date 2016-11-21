@@ -41,15 +41,26 @@ class MapFieldsObserver implements ObserverInterface
             $accountManagement = $observer->getData('accountManagement');
             $this->m2FieldsUpdater = new M2FieldsUpdater($gigya_user, $config_file_path);
             $this->m2FieldsUpdater->setGigyaLogger($this->_logger);
-            $this->m2FieldsUpdater->updateCmsAccount($customer, $accountManagement);
+            try {
+                $this->m2FieldsUpdater->updateCmsAccount($customer, $accountManagement);
+            } catch (\Exception $e) {
+                $this->gigyaLog(
+                    "error " . $e->getCode() . ". message: " . $e->getMessage() . ". File: " .$e->getFile(),
+                    __CLASS__ , __FUNCTION__
+                );
+            }
         } else {
-            $this->_logger->warning(
-                "mapping fields file path is not defined. Define file path at: Sotres:Config:Gigya:field mapping",
-                array(
-                    "class" => __CLASS__,
-                    "method" => __FUNCTION__
-                )
+            $this->gigyaLog(
+                "mapping fields file path is not defined. Define file path at: Stores:Config:Gigya:Field Mapping",
+                __CLASS__ , __FUNCTION__
             );
         }
+    }
+
+    protected function gigyaLog($message, $class, $method) {
+        $this->_logger->warning(
+            $message,
+            array( "class" => $class,  "method" => $method )
+        );
     }
 }
