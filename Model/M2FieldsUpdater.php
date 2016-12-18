@@ -27,7 +27,12 @@ class M2FieldsUpdater extends fieldMapping\CmsUpdater
     }
 
     public function callCmsHook() {
-        return true;
+        /** @var \Magento\Framework\ObjectManagerInterface $om */
+        $om = \Magento\Framework\App\ObjectManager::getInstance();
+        /** @var \Magento\Framework\Event\ManagerInterface $manager */
+        $manager = $om->get('Magento\Framework\Event\ManagerInterface');
+        $data = array("test");
+        $manager->dispatch("gigya_pre_field_mapping", $data);
     }
 
     public function setGigyaLogger($logger) {
