@@ -31,8 +31,8 @@ class M2FieldsUpdater extends fieldMapping\CmsUpdater
         $om = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var \Magento\Framework\Event\ManagerInterface $manager */
         $manager = $om->get('Magento\Framework\Event\ManagerInterface');
-        $data = array("test");
-        $manager->dispatch("gigya_pre_field_mapping", $data);
+        $gigya_user = array("gigya_user" => $this->getGigyaUser);
+        $manager->dispatch("gigya_pre_field_mapping",$gigya_user);
     }
 
     public function setGigyaLogger($logger) {
