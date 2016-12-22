@@ -9,12 +9,12 @@ class Type extends \Magento\Framework\Cache\Frontend\Decorator\TagScope
     /**
      * Cache type code unique among all cache types
      */
-    const TYPE_IDENTIFIER = 'gigya_cache_tag';
+    const TYPE_IDENTIFIER = 'gigya_fieldmapping_cache';
 
     /**
      * Cache tag used to distinguish the cache type from all other cache
      */
-    const CACHE_TAG = 'GIGYA_CACHE_TAG';
+    const CACHE_TAG = 'GIGYA_FIELDMAPPING_TAG';
 
     /**
      * @param \Magento\Framework\App\Cache\Type\FrontendPool $cacheFrontendPool
