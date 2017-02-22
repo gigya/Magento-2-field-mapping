@@ -54,6 +54,11 @@ class M2FieldsUpdater extends fieldMapping\CmsUpdater
             foreach ($confs as $conf) {
                 $mageKey = $conf->getCmsName();     // e.g: mageKey = prefix
                 $value   = $this->castValue($value, $conf);
+
+                if (gettype($value) == "boolean") {
+                    $value = $this->transformGigyaToMagentoBoolean($value);
+                }
+
                 if (substr($mageKey, 0, 6) === "custom") {
                     $account->setCustomAttribute(substr($mageKey, 7), $value);
                 } else {
@@ -61,6 +66,20 @@ class M2FieldsUpdater extends fieldMapping\CmsUpdater
                 }
             }
         }
+    }
+
+    /**
+     * Transform Gigya boolean to Magento boolean - '0'/'1' values
+     * @param bool $gigya_bool
+     * @return string $magento_bool
+     */
+    protected function transformGigyaToMagentoBoolean($gigya_bool) {
+        if ($gigya_bool == true) {
+            $magento_bool = '1';
+        } else {
+            $magento_bool = '0';
+        }
+        return $magento_bool;
     }
 
     public function saveCmsAccount(&$cmsAccount, $cmsAccountSaver) {
