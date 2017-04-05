@@ -45,9 +45,17 @@ class MapFieldsObserver implements ObserverInterface
             $gigya_user = $observer->getData('gigya_user');
             $accountManagement = $observer->getData('accountManagement');
             $this->m2FieldsUpdater = new M2FieldsUpdater($gigya_user, $config_file_path);
-            // get field mapping from cache or file
-            $this->setFieldMapping();
             $this->m2FieldsUpdater->setGigyaLogger($this->_logger);
+            // get field mapping from cache or file
+            try {
+                $this->setFieldMapping();
+            } catch (\Gigya\CmsStarterKit\fieldMapping\CmsUpdaterException $e) {
+                $this->gigyaLog(
+                    "error " . $e->getCode() . ". message: " . $e->getMessage() . ". File: " .$e->getFile(),
+                    __CLASS__ , __FUNCTION__
+                );
+                return;
+            }
             try {
                 $this->m2FieldsUpdater->updateCmsAccount($customer, $accountManagement);
             } catch (\Exception $e) {
@@ -55,6 +63,7 @@ class MapFieldsObserver implements ObserverInterface
                     "error " . $e->getCode() . ". message: " . $e->getMessage() . ". File: " .$e->getFile(),
                     __CLASS__ , __FUNCTION__
                 );
+                return;
             }
         } else {
             $this->gigyaLog(
