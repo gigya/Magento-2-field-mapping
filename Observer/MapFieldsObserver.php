@@ -3,19 +3,19 @@
  * Observer for enriching user data. from Gigya to CMS and vice versa
  */
 
-namespace Gigya\Gigya_FieldMapping\Observer;
+namespace Gigya\FieldMapping\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use \Magento\Framework\App\Config\ScopeConfigInterface;
-use Gigya\Gigya_FieldMapping\Model\M2FieldsUpdater;
-use Gigya\Gigya_FieldMapping\Model\Cache\Type;
+use Gigya\FieldMapping\Model\M2FieldsUpdater;
+use Gigya\FieldMapping\Model\Cache\Type;
 use \Gigya\GigyaIM\Logger\Logger;
 
 class MapFieldsObserver implements ObserverInterface
 {
 
     /**
-     * @var Gigya\Gigya_FieldMapping\Model\M2FieldsUpdater
+     * @var Gigya\FieldMapping\Model\M2FieldsUpdater
      */
     protected $m2FieldsUpdater;
 

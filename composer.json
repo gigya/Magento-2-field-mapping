@@ -18,7 +18,7 @@
     "gigya/magento2-im" : "*"
   },
   "autoload": {
-    "psr-4": { "Gigya\\Gigya_FieldMapping\\": "" },
+    "psr-4": { "Gigya\\FieldMapping\\": "" },
     "files": [ "registration.php" ]
   }
 }

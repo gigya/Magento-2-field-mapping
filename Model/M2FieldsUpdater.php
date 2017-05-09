@@ -11,7 +11,7 @@
  * located at: /lib/internal/Magento/Framework/Api/AbstractExtensibleObject
  */
 
-namespace Gigya\Gigya_FieldMapping\Model;
+namespace Gigya\FieldMapping\Model;
 
 use Gigya\CmsStarterKit\fieldMapping;
 

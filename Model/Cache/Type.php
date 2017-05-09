@@ -1,5 +1,5 @@
 <?php
-namespace Gigya\Gigya_FieldMapping\Model\Cache;
+namespace Gigya\FieldMapping\Model\Cache;
 
 /**
  * System / Cache Management / Cache type "Custom Cache Tag"
